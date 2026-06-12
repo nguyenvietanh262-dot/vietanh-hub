@@ -474,20 +474,11 @@ const RSS_SOURCES = [
   {
     id: 'hbr',
     name: 'HBR',
-    rssUrl: 'https://hbr.org/feed',
+    rssUrl: 'https://feeds.hbr.org/harvardbusiness',
     topic: 'HR',
     color: '#FAECE7',
     txtColor: '#712B13',
     tags: ['#HR', '#Lãnh đạo', '#Quản lý'],
-  },
-  {
-    id: 'simonsinek',
-    name: 'Simon Sinek',
-    rssUrl: 'https://simonsinek.com/feed',
-    topic: 'HR',
-    color: '#EEEDFE',
-    txtColor: '#3C3489',
-    tags: ['#HR', '#Care Share', '#Lãnh đạo'],
   },
   {
     id: 'mit-sloan',
@@ -499,6 +490,24 @@ const RSS_SOURCES = [
     tags: ['#HR', '#Chiến lược', '#Đổi mới'],
   },
   {
+    id: 'techcrunch-ai',
+    name: 'TechCrunch',
+    rssUrl: 'https://techcrunch.com/feed/',
+    topic: 'AI',
+    color: '#FAEEDA',
+    txtColor: '#633806',
+    tags: ['#AI', '#Công nghệ', '#Startup'],
+  },
+  {
+    id: 'hnrss',
+    name: 'Hacker News',
+    rssUrl: 'https://hnrss.org/frontpage',
+    topic: 'AI',
+    color: '#EEEDFE',
+    txtColor: '#3C3489',
+    tags: ['#AI', '#Tech', '#Open Source'],
+  },
+  {
     id: 'restaurant-biz',
     name: 'Restaurant Biz',
     rssUrl: 'https://restaurantbusinessonline.com/rss.xml',
@@ -507,17 +516,7 @@ const RSS_SOURCES = [
     txtColor: '#085041',
     tags: ['#F&B', '#Operations', '#Vận hành'],
   },
-  {
-    id: 'techcrunch-ai',
-    name: 'TechCrunch AI',
-    rssUrl: 'https://techcrunch.com/feed/',
-    topic: 'AI',
-    color: '#FAEEDA',
-    txtColor: '#633806',
-    tags: ['#AI', '#Công nghệ', '#Startup'],
-  },
 ];
-
 // ─── ARTICLE STORE ────────────────────────────────────────────────────────────
 let ARTICLES = [];
 let _fetchedAt = null;
