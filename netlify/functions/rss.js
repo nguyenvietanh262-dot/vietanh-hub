@@ -26,6 +26,8 @@ const ALLOWED_DOMAINS = [
   'hnrss.org',             // Hacker News RSS
   'feeds.feedblitz.com',
   'substack.com',
+  'feeds.hbr.org',
+'hnrss.org',
 ];
 
 // ─── Simple RSS/Atom parser (không dùng thư viện ngoài) ──────────────────────
