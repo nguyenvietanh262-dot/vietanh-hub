@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ VietAnh Hub</title>
+<style>
+  :root {
+    --accent: #1D9E75;
+    --accent-light: #E1F5EE;
+    --accent-dark: #085041;
+    --sidebar-bg: #F8F7F4;
+    --sidebar-txt: #2C2C2A;
+    --sidebar-sub: #888780;
+    --active-item: #E1F5EE;
+    --active-txt: #085041;
+    --active-border: #1D9E75;
+    --hover-item: #ffffff;
+    --av-bg: #E1F5EE;
+    --av-txt: #085041;
+    --tag-bg: #F1EFE8;
+    --feed-hover: #F8F7F4;
+    --tab-active-bg: #F1EFE8;
+    --tab-active-txt: #2C2C2A;
+    --bg: #ffffff;
+    --bg-secondary: #F8F7F4;
+    --bg-tertiary: #F1EFE8;
+    --txt: #1a1a18;
+    --txt-secondary: #5F5E5A;
+    --txt-tertiary: #888780;
+    --border: rgba(0,0,0,0.1);
+    --border-md: rgba(0,0,0,0.18);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.3s ease;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-tertiary);
+    color: var(--txt);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-header {
+    padding: 10px 20px;
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .app-header .brand { font-size: 15px; font-weight: 500; color: var(--txt); flex: 1; }
+  .app-header .brand span { color: var(--accent); }
+
+  .mood-bar {
+    padding: 10px 20px;
+    background: var(--sidebar-bg);
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    transition: var(--transition);
+  }
+  .mood-label { font-size: 11px; color: var(--txt-tertiary); white-space: nowrap; }
+  .mood-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .mood-pill {
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .mood-pill:hover { transform: scale(1.05); }
+  .mood-caption {
+    font-size: 11px;
+    font-style: italic;
+    color: var(--txt-tertiary);
+    margin-left: 4px;
+    transition: var(--transition);
+  }
+
+  .layout {
+    display: flex;
+    flex: 1;
+    max-width: 1100px;
+    margin: 20px auto;
+    width: 100%;
+    gap: 0;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg);
+    min-height: 600px;
+  }
+
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--sidebar-bg);
+    border-right: 0.5px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+  }
+  .sb-logo { padding: 14px 16px 12px; border-bottom: 0.5px solid var(--border); }
+  .sb-logo .n { font-size: 14px; font-weight: 500; color: var(--sidebar-txt); transition: var(--transition); }
+  .sb-logo .s { font-size: 11px; color: var(--sidebar-sub); margin-top: 2px; transition: var(--transition); }
+  .sb-sec {
+    padding: 10px 16px 4px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--sidebar-sub);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: var(--transition);
+  }
+  .sb-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    font-size: 13px;
+    color: var(--sidebar-txt);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .sb-item:hover { background: var(--hover-item); }
+  .sb-item.active {
+    background: var(--active-item);
+    color: var(--active-txt);
+    border-left-color: var(--active-border);
+  }
+  .sb-item .ct {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--txt-tertiary);
+    background: var(--bg-tertiary);
+    padding: 1px 6px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; transition: var(--transition); }
+  .sb-icon { font-size: 15px; width: 16px; text-align: center; flex-shrink: 0; }
+
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg);
+  }
+  .topbar .title { font-size: 14px; font-weight: 500; color: var(--txt); flex: 1; }
+  .tabs { display: flex; border: 0.5px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+  .tab {
+    padding: 5px 11px;
+    font-size: 12px;
+    color: var(--txt-secondary);
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    transition: all 0.15s;
+  }
+  .tab.active {
+    background: var(--tab-active-bg);
+    color: var(--tab-active-txt);
+    font-weight: 500;
+  }
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 5px 10px;
+    font-size: 12px;
+    color: var(--txt-tertiary);
+    background: var(--bg-secondary);
+  }
+  .search-wrap input {
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    color: var(--txt);
+    outline: none;
+    width: 140px;
+  }
+  .search-wrap input::placeholder { color: var(--txt-tertiary); }
+
+  .panel { flex: 1; overflow-y: auto; }
+
+  .feed-item {
+    display: flex;
+    gap: 11px;
+    padding: 13px 16px;
+    border-bottom: 0.5px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .feed-item:hover { background: var(--feed-hover); }
+  .feed-item.read .headline { color: var(--txt-secondary) !important; }
+  .feed-item.read .av { opacity: 0.6; }
+
+  .av {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--av-bg);
+    color: var(--av-txt);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    border: 0.5px solid var(--border);
+    transition: var(--transition);
+  }
+  .body { flex: 1; min-width: 0; }
+  .meta { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; flex-wrap: wrap; }
+  .author { font-size: 12px; font-weight: 500; color: var(--txt); }
+  .sbadge { font-size: 10px; padding: 1px 5px; border-radius: 3px; }
+  .time { font-size: 11px; color: var(--txt-tertiary); margin-left: auto; }
+  .new-b { font-size: 10px; padding: 1px 5px; background: var(--accent); color: #fff; border-radius: 3px; font-weight: 500; }
+  .hot-b { font-size: 10px; padding: 1px 5px; background: #FAC775; color: #633806; border-radius: 3px; font-weight: 500; }
+  .headline { font-size: 13px; color: var(--txt); line-height: 1.5; margin-bottom: 5px; font-weight: 500; transition: color 0.2s; }
+  .summary { font-size: 12px; color: var(--txt-secondary); line-height: 1.6; margin-bottom: 7px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+  .tag {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--tag-bg);
+    border: 0.5px solid var(--border);
+    color: var(--txt-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .tag:hover { background: var(--active-item); color: var(--active-txt); }
+  .actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .act-btn {
+    background: none;
+    border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md);
+    padding: 3px 9px;
+    font-size: 11px;
+    color: var(--txt-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .act-btn:hover { background: var(--bg-secondary); color: var(--txt); }
+  .act-btn.saved { color: var(--accent); border-color: var(--accent); }
+  .act-btn.read-done { color: var(--txt-tertiary); }
+
+  .empty-state { padding: 48px 20px; text-align: center; color: var(--txt-tertiary); font-size: 13px; line-height: 1.8; }
+  .empty-state .ei { font-size: 36px; display: block; margin-bottom: 12px; opacity: 0.4; }
+
+  .src-form {
+    padding: 14px 16px;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg-secondary);
+  }
+  .src-form-title { font-size: 12px; font-weight: 500; color: var(--txt); margin-bottom: 10px; }
+  .src-form input, .src-form select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    background: var(--bg);
+    color: var(--txt);
+    margin-bottom: 7px;
+    font-family: inherit;
+    outline: none;
+  }
+  .src-form input:focus, .src-form select:focus { border-color: var(--accent); }
+  .src-form .add-btn {
+    width: 100%;
+    padding: 7px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.15s;
+  }
+  .src-form .add-btn:hover { opacity: 0.85; }
+
+  .src-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-bottom: 0.5px solid var(--border);
+    transition: background 0.1s;
+  }
+  .src-item:hover { background: var(--bg-secondary); }
+  .src-fav {
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    flex-shrink: 0;
+    border: 0.5px solid var(--border);
+  }
+  .src-info { flex: 1; min-width: 0; }
+  .src-name { font-size: 13px; font-weight: 500; color: var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .src-url { font-size: 11px; color: var(--txt-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pri-badge { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 500; white-space: nowrap; }
+
+  .hist-group-label {
+    padding: 7px 16px 3px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--txt-tertiary);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg-secondary);
+  }
+  .hist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 16px;
+    border-bottom: 0.5px solid var(--border);
+    transition: background 0.1s;
+  }
+  .hist-item:hover { background: var(--bg-secondary); }
+  .hist-time { font-size: 11px; color: var(--txt-tertiary); white-space: nowrap; min-width: 48px; padding-top: 1px; }
+  .hist-body { flex: 1; min-width: 0; }
+  .hist-title { font-size: 12px; color: var(--txt); line-height: 1.5; margin-bottom: 2px; }
+  .hist-src { font-size: 11px; color: var(--txt-tertiary); }
+  .del-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--txt-tertiary);
+    padding: 2px 4px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .del-btn:hover { background: #FCEBEB; color: #A32D2D; }
+
+  .clear-row { padding: 12px 16px; }
+  .danger-btn {
+    background: none;
+    border: 0.5px solid #F09595;
+    border-radius: var(--radius-md);
+    padding: 5px 12px;
+    font-size: 12px;
+    color: #A32D2D;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .danger-btn:hover { background: #FCEBEB; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg);
+    border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md);
+    padding: 9px 16px;
+    font-size: 12px;
+    color: var(--txt);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.25s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast-icon { color: var(--accent); font-size: 14px; }
+
+  @media (max-width: 700px) {
+    .sidebar { width: 48px; min-width: 48px; }
+    .sb-logo, .sb-sec, .sb-item span:not(.ct):not(.dot), .sb-item .sb-text { display: none; }
+    .sb-item { padding: 10px; justify-content: center; }
+    .sb-item .ct { display: none; }
+    .search-wrap input { width: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="brand">✦ VietAnh <span>Hub</span></div>
+  <div style="font-size:11px;color:var(--txt-tertiary);">Tổng hợp kiến thức cá nhân</div>
+  <button onclick="loadFeeds(true)" title="Làm mới tin tức" style="background:none;border:0.5px solid var(--border-md);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--txt-secondary);cursor:pointer;font-family:inherit;transition:all 0.15s;" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='none'">⟳ Làm mới</button>
+</header>
+
+<div class="mood-bar" id="mood-bar">
+  <span class="mood-label">Tâm trạng:</span>
+  <div class="mood-pills" id="mood-pills"></div>
+  <span class="mood-caption" id="mood-caption"></span>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sb-logo">
+      <div class="n" id="sb-title">✦ VietAnh Hub</div>
+      <div class="s" id="sb-sub">Tổng hợp kiến thức</div>
+    </div>
+    <div class="sb-sec">Dòng tin</div>
+    <div class="sb-item active" data-view="feed"><span class="sb-icon">⊞</span><span class="sb-text">Tất cả</span><span class="ct" id="cnt-all">0</span></div>
+    <div class="sb-item" data-view="saved"><span class="sb-icon">🔖</span><span class="sb-text">Đã lưu</span><span class="ct" id="cnt-saved">0</span></div>
+    <div class="sb-item" data-view="history"><span class="sb-icon">↺</span><span class="sb-text">Lịch sử đọc</span><span class="ct" id="cnt-hist">0</span></div>
+    <div class="sb-sec">Chủ đề</div>
+    <div class="sb-item" data-topic="F&B"><span class="dot" id="dot1"></span><span class="sb-text">F&B & Operations</span></div>
+    <div class="sb-item" data-topic="HR"><span class="dot" id="dot2"></span><span class="sb-text">HR & Culture</span></div>
+    <div class="sb-item" data-topic="AI"><span class="dot" id="dot3"></span><span class="sb-text">AI & Công nghệ</span></div>
+    <div class="sb-item" data-topic="Care Share"><span class="dot" id="dot4"></span><span class="sb-text">Care Share</span></div>
+    <div class="sb-sec">Nguồn</div>
+    <div class="sb-item" data-view="sources"><span class="sb-icon">📡</span><span class="sb-text">Quản lý nguồn</span><span class="ct" id="cnt-src">0</span></div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar" id="topbar">
+      <div class="title" id="view-title">Dòng tin</div>
+      <div class="tabs" id="feed-tabs">
+        <button class="tab active" data-tab="latest">Mới nhất</button>
+        <button class="tab" data-tab="hot">Nổi bật</button>
+        <button class="tab" data-tab="unread">Chưa đọc</button>
+      </div>
+      <div class="search-wrap" id="search-wrap" style="display:none;">
+        <span style="font-size:13px;">🔍</span>
+        <input type="text" id="search-input" placeholder="Tìm trong lịch sử...">
+      </div>
+    </div>
+    <div class="panel" id="panel"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span id="toast-msg"></span></div>
+
+<script>
+// ─── RSS FEED CONFIG ─────────────────────────────────────────────────────────
+// Mỗi nguồn cần có: id, name, rssUrl, topic, color, txtColor
+// Thêm/bớt nguồn tại đây tùy ý
+const RSS_SOURCES = [
+  {
+    id: 'hbr',
+    name: 'HBR',
+    rssUrl: 'https://hbr.org/feed',
+    topic: 'HR',
+    color: '#FAECE7',
+    txtColor: '#712B13',
+    tags: ['#HR', '#Lãnh đạo', '#Quản lý'],
+  },
+  {
+    id: 'simonsinek',
+    name: 'Simon Sinek',
+    rssUrl: 'https://simonsinek.com/feed',
+    topic: 'HR',
+    color: '#EEEDFE',
+    txtColor: '#3C3489',
+    tags: ['#HR', '#Care Share', '#Lãnh đạo'],
+  },
+  {
+    id: 'mit-sloan',
+    name: 'MIT Sloan',
+    rssUrl: 'https://sloanreview.mit.edu/feed/',
+    topic: 'HR',
+    color: '#E6F1FB',
+    txtColor: '#0C447C',
+    tags: ['#HR', '#Chiến lược', '#Đổi mới'],
+  },
+  {
+    id: 'restaurant-biz',
+    name: 'Restaurant Biz',
+    rssUrl: 'https://restaurantbusinessonline.com/rss.xml',
+    topic: 'F&B',
+    color: '#E1F5EE',
+    txtColor: '#085041',
+    tags: ['#F&B', '#Operations', '#Vận hành'],
+  },
+  {
+    id: 'techcrunch-ai',
+    name: 'TechCrunch AI',
+    rssUrl: 'https://techcrunch.com/feed/',
+    topic: 'AI',
+    color: '#FAEEDA',
+    txtColor: '#633806',
+    tags: ['#AI', '#Công nghệ', '#Startup'],
+  },
+];
+
+// ─── ARTICLE STORE ────────────────────────────────────────────────────────────
+let ARTICLES = [];
+let _fetchedAt = null;
+const CACHE_TTL = 15 * 60 * 1000; // cache 15 phút
+
+// ─── RSS FETCH ENGINE ─────────────────────────────────────────────────────────
+function timeAgo(dateStr) {
+  try {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return `${mins} phút trước`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs} giờ trước`;
+    const days = Math.floor(hrs / 24);
+    return `${days} ngày trước`;
+  } catch { return ''; }
+}
+
+function makeAv(title) {
+  const words = title.trim().split(/\s+/);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return title.slice(0, 2).toUpperCase();
+}
+
+function stripHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html || '';
+  return tmp.textContent.trim().slice(0, 200);
+}
+
+async function fetchOneFeed(src) {
+  const proxyUrl = `/.netlify/functions/rss?url=${encodeURIComponent(src.rssUrl)}`;
+  const res = await fetch(proxyUrl);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const items = await res.json(); // array of {title, link, pubDate, author, content, contentSnippet}
+  return items.slice(0, 10).map((item, i) => ({
+    id: `${src.id}-${i}`,
+    author: item.author || src.name,
+    av: makeAv(item.author || src.name),
+    source: src.name,
+    topic: src.topic,
+    tags: src.tags,
+    headline: item.title || '(Không có tiêu đề)',
+    summary: item.contentSnippet ? item.contentSnippet.slice(0, 180) : stripHtml(item.content),
+    time: timeAgo(item.pubDate || item.isoDate),
+    link: item.link || '#',
+    isNew: (() => { try { return Date.now() - new Date(item.pubDate).getTime() < 86400000; } catch { return false; } })(),
+    isHot: false,
+    srcColor: src.color,
+    srcTxt: src.txtColor,
+    pubDate: item.pubDate || item.isoDate || '',
+  }));
+}
+
+function showLoadingState() {
+  const panel = document.getElementById('panel');
+  if (panel) panel.innerHTML = `
+    <div style="padding:48px 20px;text-align:center;color:var(--txt-tertiary);font-size:13px;line-height:2;">
+      <div style="font-size:28px;margin-bottom:12px;opacity:0.5;">⟳</div>
+      Đang tải tin tức từ các nguồn...<br>
+      <span style="font-size:11px;">Lần đầu có thể mất vài giây</span>
+    </div>`;
+}
+
+function showErrorState(msg) {
+  const panel = document.getElementById('panel');
+  if (panel) panel.innerHTML = `
+    <div style="padding:48px 20px;text-align:center;color:var(--txt-tertiary);font-size:13px;line-height:2;">
+      <div style="font-size:28px;margin-bottom:12px;opacity:0.4;">⚠</div>
+      ${msg}<br>
+      <button onclick="loadFeeds(true)" style="margin-top:12px;padding:6px 16px;border-radius:8px;border:0.5px solid var(--border-md);background:var(--bg);color:var(--txt);font-size:12px;cursor:pointer;">Thử lại</button>
+    </div>`;
+}
+
+async function loadFeeds(forceRefresh = false) {
+  // Dùng cache nếu còn mới
+  if (!forceRefresh && _fetchedAt && (Date.now() - _fetchedAt < CACHE_TTL) && ARTICLES.length > 0) {
+    renderPanel();
+    return;
+  }
+
+  showLoadingState();
+
+  const results = await Promise.allSettled(RSS_SOURCES.map(fetchOneFeed));
+  const articles = [];
+  let fetchedCount = 0;
+
+  results.forEach((r, i) => {
+    if (r.status === 'fulfilled') {
+      articles.push(...r.value);
+      fetchedCount++;
+    } else {
+      console.warn(`⚠ Không fetch được ${RSS_SOURCES[i].name}:`, r.reason);
+    }
+  });
+
+  if (articles.length === 0) {
+    showErrorState('Không tải được bài viết nào.<br>Kiểm tra Netlify Function đã deploy chưa?');
+    return;
+  }
+
+  // Sắp xếp theo thời gian mới nhất
+  articles.sort((a, b) => {
+    try { return new Date(b.pubDate) - new Date(a.pubDate); } catch { return 0; }
+  });
+
+  // Đánh dấu hot = top 3 bài mới nhất từ mỗi nguồn
+  const hotSet = new Set();
+  const countBySource = {};
+  articles.forEach(a => {
+    if ((countBySource[a.source] || 0) < 3) {
+      hotSet.add(a.id);
+      countBySource[a.source] = (countBySource[a.source] || 0) + 1;
+    }
+  });
+  articles.forEach(a => { a.isHot = hotSet.has(a.id); });
+
+  ARTICLES = articles;
+  _fetchedAt = Date.now();
+
+  updateCounts();
+  renderPanel();
+
+  if (fetchedCount < RSS_SOURCES.length) {
+    showToast(`Đã tải ${fetchedCount}/${RSS_SOURCES.length} nguồn ✦`);
+  } else {
+    showToast(`Đã tải ${articles.length} bài từ ${fetchedCount} nguồn ✦`);
+  }
+}
+
+const MOODS = [
+  {id:'default',label:'Mặc định',emoji:'☁️',caption:'Bình thường, ổn định',pill:{bg:'#F1EFE8',txt:'#5F5E5A',border:'#B4B2A9'},accent:'#1D9E75',accentLight:'#E1F5EE',accentDark:'#085041',sidebar:'#F8F7F4',sidebarTxt:'#2C2C2A',sidebarSub:'#888780',activeItem:'#E1F5EE',activeTxt:'#085041',activeBorder:'#1D9E75',hoverItem:'#ffffff',avBg:'#E1F5EE',avTxt:'#085041',tagBg:'#F1EFE8',feedHover:'#F8F7F4',tabActiveBg:'#F1EFE8',tabActiveTxt:'#2C2C2A',dots:['#1D9E75','#7F77DD','#D85A30','#D4537E']},
+  {id:'excited',label:'Hào hứng',emoji:'🔥',caption:'Năng lượng cao, muốn khám phá hết',pill:{bg:'#FAECE7',txt:'#712B13',border:'#F0997B'},accent:'#D85A30',accentLight:'#FAECE7',accentDark:'#712B13',sidebar:'#FDF3EF',sidebarTxt:'#4A1B0C',sidebarSub:'#D85A30',activeItem:'#FAECE7',activeTxt:'#712B13',activeBorder:'#D85A30',hoverItem:'#FEF8F5',avBg:'#FAECE7',avTxt:'#712B13',tagBg:'#FEF8F5',feedHover:'#FEF8F5',tabActiveBg:'#FAECE7',tabActiveTxt:'#712B13',dots:['#D85A30','#EF9F27','#E24B4A','#F0997B']},
+  {id:'calm',label:'Trầm tư',emoji:'🌊',caption:'Chậm lại, đọc kỹ và suy nghĩ sâu',pill:{bg:'#E6F1FB',txt:'#0C447C',border:'#85B7EB'},accent:'#185FA5',accentLight:'#E6F1FB',accentDark:'#0C447C',sidebar:'#EEF5FC',sidebarTxt:'#042C53',sidebarSub:'#378ADD',activeItem:'#E6F1FB',activeTxt:'#0C447C',activeBorder:'#185FA5',hoverItem:'#F5F9FE',avBg:'#E6F1FB',avTxt:'#0C447C',tagBg:'#F5F9FE',feedHover:'#F5F9FE',tabActiveBg:'#E6F1FB',tabActiveTxt:'#0C447C',dots:['#185FA5','#5DCAA5','#7F77DD','#85B7EB']},
+  {id:'curious',label:'Tò mò',emoji:'🌿',caption:'Cởi mở, muốn tìm hiểu điều mới',pill:{bg:'#EAF3DE',txt:'#27500A',border:'#97C459'},accent:'#3B6D11',accentLight:'#EAF3DE',accentDark:'#27500A',sidebar:'#F2F8EA',sidebarTxt:'#173404',sidebarSub:'#639922',activeItem:'#EAF3DE',activeTxt:'#27500A',activeBorder:'#3B6D11',hoverItem:'#F7FBF0',avBg:'#EAF3DE',avTxt:'#27500A',tagBg:'#F7FBF0',feedHover:'#F7FBF0',tabActiveBg:'#EAF3DE',tabActiveTxt:'#27500A',dots:['#3B6D11','#1D9E75','#639922','#97C459']},
+  {id:'focused',label:'Tập trung',emoji:'⚡',caption:'Đầu óc sắc bén, cần thông tin nhanh',pill:{bg:'#FAEEDA',txt:'#633806',border:'#EF9F27'},accent:'#BA7517',accentLight:'#FAEEDA',accentDark:'#633806',sidebar:'#FDF6EC',sidebarTxt:'#412402',sidebarSub:'#BA7517',activeItem:'#FAEEDA',activeTxt:'#633806',activeBorder:'#BA7517',hoverItem:'#FEF9F2',avBg:'#FAEEDA',avTxt:'#633806',tagBg:'#FEF9F2',feedHover:'#FEF9F2',tabActiveBg:'#FAEEDA',tabActiveTxt:'#633806',dots:['#BA7517','#EF9F27','#D85A30','#FAC775']},
+  {id:'creative',label:'Sáng tạo',emoji:'✨',caption:'Tư duy tự do, liên kết ý tưởng mới',pill:{bg:'#EEEDFE',txt:'#3C3489',border:'#AFA9EC'},accent:'#534AB7',accentLight:'#EEEDFE',accentDark:'#3C3489',sidebar:'#F4F3FE',sidebarTxt:'#26215C',sidebarSub:'#7F77DD',activeItem:'#EEEDFE',activeTxt:'#3C3489',activeBorder:'#534AB7',hoverItem:'#F9F8FF',avBg:'#EEEDFE',avTxt:'#3C3489',tagBg:'#F9F8FF',feedHover:'#F9F8FF',tabActiveBg:'#EEEDFE',tabActiveTxt:'#3C3489',dots:['#534AB7','#D4537E','#7F77DD','#AFA9EC']},
+  {id:'peaceful',label:'Bình yên',emoji:'🌸',caption:'Thư giãn, đọc nhẹ nhàng và cảm nhận',pill:{bg:'#FBEAF0',txt:'#72243E',border:'#ED93B1'},accent:'#993556',accentLight:'#FBEAF0',accentDark:'#72243E',sidebar:'#FDF0F5',sidebarTxt:'#4B1528',sidebarSub:'#D4537E',activeItem:'#FBEAF0',activeTxt:'#72243E',activeBorder:'#993556',hoverItem:'#FEF6F9',avBg:'#FBEAF0',avTxt:'#72243E',tagBg:'#FEF6F9',feedHover:'#FEF6F9',tabActiveBg:'#FBEAF0',tabActiveTxt:'#72243E',dots:['#D4537E','#993556','#ED93B1','#F4C0D1']},
+];
+
+const STATE_KEY = 'viatanh-hub-v1';
+let state = {
+  saved: [],
+  history: [],
+  sources: [
+    {id:1,name:'Simon Sinek Blog',url:'simonsinek.com',priority:'cao',color:'#7F77DD'},
+    {id:2,name:'Harvard Business Review',url:'hbr.org',priority:'cao',color:'#D85A30'},
+    {id:3,name:'Restaurant Business Online',url:'restaurantbusinessonline.com',priority:'trung bình',color:'#1D9E75'},
+  ],
+  readIds: [],
+  mood: 'default',
+  view: 'feed',
+  tab: 'latest',
+  topic: null,
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STATE_KEY);
+    if (raw) {
+      const d = JSON.parse(raw);
+      Object.assign(state, d);
+    }
+  } catch(e) {}
+}
+
+function saveState() {
+  try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function applyMood(moodId) {
+  const m = MOODS.find(x => x.id === moodId) || MOODS[0];
+  state.mood = m.id;
+  const r = document.documentElement.style;
+  r.setProperty('--accent', m.accent);
+  r.setProperty('--accent-light', m.accentLight);
+  r.setProperty('--accent-dark', m.accentDark);
+  r.setProperty('--sidebar-bg', m.sidebar);
+  r.setProperty('--sidebar-txt', m.sidebarTxt);
+  r.setProperty('--sidebar-sub', m.sidebarSub);
+  r.setProperty('--active-item', m.activeItem);
+  r.setProperty('--active-txt', m.activeTxt);
+  r.setProperty('--active-border', m.activeBorder);
+  r.setProperty('--hover-item', m.hoverItem);
+  r.setProperty('--av-bg', m.avBg);
+  r.setProperty('--av-txt', m.avTxt);
+  r.setProperty('--tag-bg', m.tagBg);
+  r.setProperty('--feed-hover', m.feedHover);
+  r.setProperty('--tab-active-bg', m.tabActiveBg);
+  r.setProperty('--tab-active-txt', m.tabActiveTxt);
+  const dots = ['dot1','dot2','dot3','dot4'];
+  dots.forEach((id,i) => {
+    const el = document.getElementById(id);
+    if (el) el.style.background = m.dots[i % m.dots.length];
+  });
+  document.getElementById('mood-caption').textContent = m.caption;
+  document.querySelectorAll('.mood-pill').forEach(p => {
+    const pm = MOODS.find(x => x.id === p.dataset.mood);
+    if (!pm) return;
+    if (pm.id === m.id) {
+      p.style.background = m.accent;
+      p.style.color = '#fff';
+      p.style.borderColor = m.accent;
+      p.style.transform = 'scale(1.06)';
+    } else {
+      p.style.background = pm.pill.bg;
+      p.style.color = pm.pill.txt;
+      p.style.borderColor = pm.pill.border;
+      p.style.transform = 'scale(1)';
+    }
+  });
+  document.getElementById('mood-bar').style.background = m.sidebar;
+  saveState();
+}
+
+function buildMoodBar() {
+  const container = document.getElementById('mood-pills');
+  container.innerHTML = MOODS.map(m =>
+    `<button class="mood-pill" data-mood="${m.id}" onclick="applyMood('${m.id}')" title="${m.caption}">${m.emoji} ${m.label}</button>`
+  ).join('');
+}
+
+function updateCounts() {
+  document.getElementById('cnt-all').textContent = ARTICLES.length;
+  document.getElementById('cnt-saved').textContent = state.saved.length;
+  document.getElementById('cnt-hist').textContent = state.history.length;
+  document.getElementById('cnt-src').textContent = state.sources.length;
+}
+
+function getArticles() {
+  let arts = [...ARTICLES];
+  if (state.topic) {
+    arts = arts.filter(a => a.topic === state.topic || a.tags.some(t => t.includes(state.topic)));
+  }
+  if (state.view === 'saved') return arts.filter(a => state.saved.includes(a.id));
+  if (state.tab === 'hot') arts = arts.filter(a => a.isHot);
+  if (state.tab === 'unread') arts = arts.filter(a => !state.readIds.includes(a.id));
+  return arts;
+}
+
+function toggleSave(id, e) {
+  if (e) e.stopPropagation();
+  const idx = state.saved.indexOf(id);
+  if (idx >= 0) { state.saved.splice(idx, 1); showToast('Đã bỏ lưu bài viết'); }
+  else { state.saved.push(id); showToast('Đã lưu vào dấu trang ✦'); }
+  saveState(); updateCounts(); renderPanel();
+}
+
+function openArticle(id, e) {
+  markRead(id, e);
+  const a = ARTICLES.find(x => x.id === id);
+  if (a && a.link && a.link !== '#') window.open(a.link, '_blank', 'noopener');
+}
+
+function markRead(id, e) {
+  if (e) e.stopPropagation();
+  if (!state.readIds.includes(id)) {
+    state.readIds.push(id);
+    const a = ARTICLES.find(x => x.id === id);
+    if (a) {
+      const now = new Date();
+      state.history.unshift({
+        id: a.id,
+        title: a.headline,
+        source: a.source + ' · ' + a.author,
+        time: now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0'),
+        date: 'Hôm nay',
+      });
+      if (state.history.length > 100) state.history.pop();
+    }
+    saveState(); updateCounts();
+  }
+  renderPanel();
+}
+
+function removeHistory(id) {
+  state.history = state.history.filter(h => h.id !== id);
+  state.readIds = state.readIds.filter(x => x !== id);
+  saveState(); updateCounts(); renderPanel();
+}
+
+function clearHistory() {
+  if (!confirm('Xóa toàn bộ lịch sử đọc?')) return;
+  state.history = []; state.readIds = [];
+  saveState(); updateCounts(); renderPanel();
+  showToast('Đã xóa toàn bộ lịch sử');
+}
+
+function addSource() {
+  const name = document.getElementById('src-name').value.trim();
+  const url = document.getElementById('src-url').value.trim();
+  const pri = document.getElementById('src-pri').value;
+  if (!name || !url) { showToast('Vui lòng điền đầy đủ tên và URL'); return; }
+  const colors = ['#1D9E75','#7F77DD','#D85A30','#378ADD','#D4537E','#BA7517'];
+  state.sources.push({ id: Date.now(), name, url, priority: pri, color: colors[state.sources.length % colors.length] });
+  saveState(); updateCounts(); renderPanel();
+  document.getElementById('src-name').value = '';
+  document.getElementById('src-url').value = '';
+  showToast(`Đã thêm "${name}" vào nguồn ưu tiên`);
+}
+
+function removeSource(id) {
+  state.sources = state.sources.filter(s => s.id !== id);
+  saveState(); updateCounts(); renderPanel();
+  showToast('Đã xóa nguồn');
+}
+
+function priStyle(p) {
+  if (p === 'cao') return 'background:#E1F5EE;color:#085041';
+  if (p === 'thấp') return 'background:#F1EFE8;color:#5F5E5A';
+  return 'background:#E6F1FB;color:#0C447C';
+}
+
+function renderFeed(arts) {
+  if (!arts.length) return `<div class="empty-state"><span class="ei">📭</span>Không có bài viết nào<br>Thử đổi bộ lọc hoặc chủ đề khác</div>`;
+  return arts.map(a => {
+    const isSaved = state.saved.includes(a.id);
+    const isRead = state.readIds.includes(a.id);
+    const safeId = JSON.stringify(a.id);
+    return `<div class="feed-item${isRead?' read':''}" onclick="openArticle(${safeId})">
+      <div class="av">${a.av}</div>
+      <div class="body">
+        <div class="meta">
+          <span class="author">${a.author}</span>
+          <span class="sbadge" style="background:${a.srcColor};color:${a.srcTxt}">${a.source}</span>
+          ${a.isNew && !isRead ? '<span class="new-b">Mới</span>' : ''}
+          ${a.isHot ? '<span class="hot-b">Hot</span>' : ''}
+          <span class="time">${a.time}</span>
+        </div>
+        <div class="headline">${a.headline}</div>
+        <div class="summary">${a.summary}</div>
+        <div class="tags">${a.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        <div class="actions" onclick="event.stopPropagation()">
+          <button class="act-btn${isSaved?' saved':''}" onclick="toggleSave(${safeId},event)">
+            ${isSaved?'🔖 Đã lưu':'🔖 Lưu lại'}
+          </button>
+          <button class="act-btn${isRead?' read-done':''}" onclick="markRead(${safeId},event)">
+            ${isRead?'✓ Đã đọc':'✓ Đánh dấu đọc'}
+          </button>
+          ${a.link && a.link !== '#' ? `<a class="act-btn" href="${a.link}" target="_blank" rel="noopener" onclick="event.stopPropagation()">↗ Đọc bài gốc</a>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderHistory() {
+  if (!state.history.length) return `<div class="empty-state"><span class="ei">↺</span>Chưa có lịch sử đọc<br>Mở bài viết để bắt đầu ghi lại</div>`;
+  const grouped = {};
+  state.history.forEach(h => {
+    const d = h.date || 'Hôm nay';
+    if (!grouped[d]) grouped[d] = [];
+    grouped[d].push(h);
+  });
+  let html = '';
+  for (const [date, items] of Object.entries(grouped)) {
+    html += `<div class="hist-group-label">${date} · ${items.length} bài</div>`;
+    items.forEach(h => {
+      html += `<div class="hist-item">
+        <div class="hist-time">${h.time}</div>
+        <div class="hist-body">
+          <div class="hist-title">${h.title}</div>
+          <div class="hist-src">${h.source}</div>
+        </div>
+        <button class="del-btn" onclick="removeHistory(${h.id})" title="Xóa">✕</button>
+      </div>`;
+    });
+  }
+  html += `<div class="clear-row"><button class="danger-btn" onclick="clearHistory()">🗑 Xóa toàn bộ lịch sử</button></div>`;
+  return html;
+}
+
+function renderSources() {
+  let html = `<div class="src-form">
+    <div class="src-form-title">➕ Thêm nguồn ưu tiên mới</div>
+    <input id="src-name" placeholder="Tên nguồn (vd: HR Bartender)">
+    <input id="src-url" placeholder="URL (vd: hrbartender.com)">
+    <select id="src-pri">
+      <option value="cao">⬆ Ưu tiên cao — hiển thị trước</option>
+      <option value="trung bình" selected>➡ Ưu tiên trung bình</option>
+      <option value="thấp">⬇ Ưu tiên thấp</option>
+    </select>
+    <button class="add-btn" onclick="addSource()">Thêm nguồn</button>
+  </div>`;
+  if (state.sources.length) {
+    html += `<div class="hist-group-label">${state.sources.length} nguồn đang theo dõi</div>`;
+    const sorted = [...state.sources].sort((a,b) => {
+      const o = {cao:0,'trung bình':1,'thấp':2};
+      return (o[a.priority]||1) - (o[b.priority]||1);
+    });
+    sorted.forEach(s => {
+      html += `<div class="src-item">
+        <div class="src-fav" style="background:${s.color}22;color:${s.color}">${s.name.slice(0,2).toUpperCase()}</div>
+        <div class="src-info">
+          <div class="src-name">${s.name}</div>
+          <div class="src-url">${s.url}</div>
+        </div>
+        <span class="pri-badge" style="${priStyle(s.priority)}">${s.priority}</span>
+        <button class="del-btn" onclick="removeSource(${s.id})" title="Xóa nguồn">✕</button>
+      </div>`;
+    });
+  } else {
+    html += `<div class="empty-state"><span class="ei">📡</span>Chưa có nguồn nào<br>Thêm nguồn để hệ thống ưu tiên hiển thị nội dung từ đó</div>`;
+  }
+  return html;
+}
+
+function renderPanel() {
+  const panel = document.getElementById('panel');
+  const v = state.view;
+  if (v === 'history') { panel.innerHTML = renderHistory(); return; }
+  if (v === 'sources') { panel.innerHTML = renderSources(); return; }
+  panel.innerHTML = renderFeed(getArticles());
+}
+
+function setView(view, topic) {
+  state.view = view;
+  state.topic = topic || null;
+  const titles = { feed: topic || 'Dòng tin', saved: 'Dấu trang', history: 'Lịch sử đọc', sources: 'Quản lý nguồn' };
+  document.getElementById('view-title').textContent = titles[view] || 'Dòng tin';
+  const showTabs = view === 'feed';
+  document.getElementById('feed-tabs').style.display = showTabs ? 'flex' : 'none';
+  const showSearch = view === 'history';
+  document.getElementById('search-wrap').style.display = showSearch ? 'flex' : 'none';
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'));
+  if (view === 'feed' && !topic) document.querySelector('[data-view="feed"]').classList.add('active');
+  else if (view === 'saved') document.querySelector('[data-view="saved"]').classList.add('active');
+  else if (view === 'history') document.querySelector('[data-view="history"]').classList.add('active');
+  else if (view === 'sources') document.querySelector('[data-view="sources"]').classList.add('active');
+  else if (topic) { const el = document.querySelector(`[data-topic="${topic}"]`); if (el) el.classList.add('active'); }
+  saveState(); renderPanel();
+}
+
+function setTab(tab) {
+  state.tab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+  renderPanel();
+}
+
+document.querySelectorAll('.sb-item').forEach(el => {
+  el.addEventListener('click', () => {
+    const view = el.dataset.view;
+    const topic = el.dataset.topic;
+    if (view) setView(view);
+    else if (topic) setView('feed', topic);
+  });
+});
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => setTab(t.dataset.tab));
+});
+
+loadState();
+buildMoodBar();
+applyMood(state.mood);
+updateCounts();
+// Khởi động: fetch RSS thật
+loadFeeds();
+// Nếu đang ở view khác feed, set lại sau khi load
+if (state.view !== 'feed' || state.topic) {
+  // Chờ feed load xong mới setView
+  const _origRender = renderPanel;
+  let _once = false;
+  renderPanel = function(...args) {
+    _origRender.apply(this, args);
+    if (!_once) {
+      _once = true;
+      renderPanel = _origRender;
+      if (state.view !== 'feed' || state.topic) setView(state.view, state.topic);
+    }
+  };
+}
+</script>
+</body>
+</html>
