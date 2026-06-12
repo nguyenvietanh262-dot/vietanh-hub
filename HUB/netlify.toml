@@ -1,0 +1,27 @@
+# netlify.toml
+# ─────────────────────────────────────────────────────────────────────────────
+# Config deploy VietAnh Hub lên Netlify
+# ─────────────────────────────────────────────────────────────────────────────
+
+[build]
+  publish = "."          # Thư mục chứa index.html (hoặc vietanh-hub.html)
+  functions = "netlify/functions"  # Thư mục chứa Netlify Functions
+
+# Nếu bạn đổi tên vietanh-hub.html thành index.html, bỏ dòng này
+[[redirects]]
+  from = "/"
+  to = "/vietanh-hub.html"
+  status = 200
+
+# CORS headers cho tất cả response
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+
+# Cache dài cho static assets
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
